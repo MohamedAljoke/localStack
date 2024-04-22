@@ -1,0 +1,27 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Description: 'CloudFormation template for creating an EC2 instance in LocalStack'
+
+Resources:
+  EC2Instance:
+    Type: AWS::EC2::Instance
+    Properties:
+      ImageId: ami-1234abcd  # Use a placeholder AMI ID
+      InstanceType: t2.micro
+      KeyName: my-local-key  # Specify the key pair name for LocalStack
+      UserData: |
+        #!/bin/bash
+        echo "Hello, LocalStack!" > /home/ec2-user/index.html
+
+  MySecurityGroup:
+    Type: AWS::EC2::SecurityGroup
+    Properties:
+      GroupDescription: Enable SSH and HTTP access in LocalStack
+      SecurityGroupIngress:
+        - IpProtocol: tcp
+          FromPort: 22
+          ToPort: 22
+          CidrIp: 0.0.0.0/0
+        - IpProtocol: tcp
+          FromPort: 80
+          ToPort: 80
+          CidrIp: 0.0.0.0/0
